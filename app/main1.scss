@@ -1,0 +1,10 @@
+@import "./variables.scss";
+
+h2 {
+    color: $red;
+    font-size: 25px;
+    font-weight: bold;
+    width: 200px;
+    height: 200px;
+    background: url('./images/1.jpg');
+}
