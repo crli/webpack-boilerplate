@@ -1,0 +1,8 @@
+@mixin weight {
+    font-weight: bold;
+    color:red;
+}
+h1{
+    font-size: 30px;
+    @include weight;
+}

@@ -56,6 +56,10 @@ module.exports = {
       { 
         test: /\.(png|jpg|gif|woff|woff2|eot|ttf|svg)$/, 
         loader: 'url-loader?limit=8192'
+      },
+      {
+        test: /\.html$/,
+        loader: "html"
       }
     ]
   },
@@ -66,12 +70,13 @@ module.exports = {
   //合并以后的代码，采用source-map的形式利于排错和定位
   devtool: 'eval-source-map',
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ['', '.js'],
   },
   //添加我们的插件 会自动生成一个html文件
   plugins: [
     new HtmlwebpackPlugin({
-      title: 'Hello World app'
+      title: 'Hello',
+      template: 'app/index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
     new OpenBrowserPlugin({ url: 'http://localhost:8080' })
