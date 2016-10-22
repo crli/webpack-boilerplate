@@ -1,38 +1,32 @@
 const webpack = require('webpack');
 const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
-//定义了一些文件夹的路径
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
-//Template的文件夹路径
-var TEM_PATH = path.resolve(APP_PATH, 'templates');
 
 module.exports = {
 
   //项目的文件夹 可以直接用文件夹名称 默认会找index.js 也可以确定是哪个文件名字
-  entry: APP_PATH,//单文件
+  entry: path.resolve(__dirname, 'app/index.js'),//单文件
 
   // entry: {
   //  //三个入口文件，app, mobile和 vendors
-  //   app: path.resolve(APP_PATH, 'index.js'),
-  //   mobile: path.resolve(APP_PATH, 'mobile.js'),
+  //   app: path.resolve(__dirname, 'app/index.js'),
+  //   mobile: path.resolve(__dirname, 'app/mobile.js'),
   //   vendors: ['jquery']
   // },
   //单文件输出的文件名 合并以后的js会命名为bundle.js
   output: {
-    path: BUILD_PATH,
+    path: __dirname + '/build',
     filename: '[hash].bundle.js'
   },
   // output: {
-  //   path: BUILD_PATH,
+  //   path: __dirname + '/build',
   //   filename: '[name].[hash].js'
   // },
   module: {
     perLoaders: [
       {
         test: /\.jsx?$/,
-        include: APP_PATH,
+        include: path.resolve(__dirname, 'app'), 
         loader: 'jshint-loader'
       }
     ],
@@ -40,19 +34,18 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loader: 'babel',
-        include: APP_PATH,
+        exclude: /node_modules/,
         query: {
           presets: ['es2015']
         }
       },
       { 
         test: /\.css$/, 
-        include: APP_PATH, 
         loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 version"]}' 
       },
       { 
         test: /\.scss$/, 
-        include: APP_PATH, 
+        include: path.resolve(__dirname, 'app'), 
         loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 version"]}!sass-loader?outputStyle=expanded'
       },
       { 
@@ -78,7 +71,7 @@ module.exports = {
     // //创建了两个HtmlWebpackPlugin的实例，生成两个页面
     // new HtmlwebpackPlugin({
     //   title: 'Hello World app',
-    //   template: path.resolve(TEM_PATH, 'index.html'),
+    //   template: path.resolve(__dirname, 'app/templates/index.html'),
     //   filename: 'index.html',
     //   //chunks这个参数告诉插件要引用entry里面的哪几个入口
     //   chunks: ['app', 'vendors'],
@@ -87,14 +80,15 @@ module.exports = {
     // }),
     // new HtmlwebpackPlugin({
     //   title: 'Hello Mobile app',
-    //   template: path.resolve(TEM_PATH, 'mobile.html'),
+    //   template: path.resolve(__dirname, 'app/templates/mobile.html'),
     //   filename: 'mobile.html',
     //   chunks: ['mobile', 'vendors'],
     //   inject: 'body'
     // })
     new HtmlwebpackPlugin({
-      title: 'hello',
-      template: 'app/index.html'
-    })
+      title: 'Hello World app',
+      template: path.resolve(__dirname, 'app/index.html'),
+      filename: 'index.html',
+    }),
   ]
 }

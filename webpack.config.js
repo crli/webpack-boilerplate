@@ -2,27 +2,24 @@ const webpack = require('webpack');
 const path = require('path');
 const HtmlwebpackPlugin = require('html-webpack-plugin');
 const OpenBrowserPlugin = require('open-browser-webpack-plugin');
-//定义了一些文件夹的路径
-var ROOT_PATH = path.resolve(__dirname);
-var APP_PATH = path.resolve(ROOT_PATH, 'app');
-var BUILD_PATH = path.resolve(ROOT_PATH, 'build');
+
 module.exports = {
   devServer: {
-    historyApiFallback: true,
     hot: true,
     inline: true,
     progress: true,
-    port: 8080
+    host: '0.0.0.0',
+    port: 7080
   },
   //项目的文件夹 可以直接用文件夹名称 默认会找index.js 也可以确定是哪个文件名字
   entry: [
     'webpack/hot/dev-server',
-    'webpack-dev-server/client?http://localhost:8080',
-    APP_PATH
+    'webpack-dev-server/client?http://localhost:7080',
+     path.resolve(__dirname, 'app/index.js')
   ],
   //输出的文件名 合并以后的js会命名为bundle.js
   output: {
-    path: BUILD_PATH,
+    path: __dirname + '/build',
     publicPath: '/',
     filename: 'bundle.js'
   },
@@ -30,7 +27,7 @@ module.exports = {
     perLoaders: [
       {
         test: /\.jsx?$/,
-        include: APP_PATH,
+        include: path.resolve(__dirname, 'app'), 
         loader: 'jshint-loader'
       }
     ],
@@ -38,19 +35,18 @@ module.exports = {
       {
         test: /\.jsx?$/,
         loader: 'babel',
-        include: APP_PATH,
+        exclude: /node_modules/,
         query: {
           presets: ['es2015']
         }
       },
       { 
         test: /\.css$/, 
-        include: APP_PATH, 
         loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 version"]}' 
       },
       { 
         test: /\.scss$/, 
-        include: APP_PATH, 
+        include: path.resolve(__dirname, 'app'), 
         loader: 'style-loader!css-loader!autoprefixer-loader?{browsers:["last 2 version"]}!sass-loader?outputStyle=expanded'
       },
       { 
@@ -59,7 +55,7 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        loader: "html"
+        loader: "html-loader"
       }
     ]
   },
@@ -72,13 +68,19 @@ module.exports = {
   resolve: {
     extensions: ['', '.js'],
   },
-  //添加我们的插件 会自动生成一个html文件
+
   plugins: [
+    new webpack.ProvidePlugin({
+        $: "jquery",
+        jQuery: "jquery",
+        "window.jQuery": "jquery"
+    }),
     new HtmlwebpackPlugin({
-      title: 'Hello',
-      template: 'app/index.html',
+      title: 'Hello World app',
+      template: path.resolve(__dirname, 'app/index.html'),
+      filename: 'index.html',
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new OpenBrowserPlugin({ url: 'http://localhost:8080' })
+    new OpenBrowserPlugin({ url: 'http://localhost:7080' })
   ]
 }

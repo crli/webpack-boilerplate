@@ -1,5 +1,4 @@
-import './main.scss';
 import './index.html';
-// import $ from 'jquery';
-// import 'imports?jQuery=jquery!./plugin/xx.js';
-
+import './main.scss';
+import $ from 'jquery';
+ $("body").css("backgroundColor","red")
