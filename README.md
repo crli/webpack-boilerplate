@@ -1,4 +1,11 @@
-# webpack-boilerplate
-webpack-es6-boilerplate
+## Demo & Examples
 
-Webpack开发和部署 常用方法
+Live demo: [http://crli.github.io/H5plugin/](http://crli.github.io/H5plugin/)
+To build the examples locally, run:
+
+```
+npm install
+npm start
+```
+
+
