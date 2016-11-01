@@ -1,0 +1,1 @@
+webpackJsonp([1,0],[function(module,exports,o){(function($){"use strict";o(4),o(2),o(3),o(6),$(function(){$("#dowebok").fullpage({sectionsColor:["#1bbc9b","#4BBFC3","#7BAABE","#f90"]})})}).call(exports,o(1))},,function(module,exports){},2,2,,function(module,exports,o){(function($){"use strict";$("#box").html("Hello Word")}).call(exports,o(1))}]);
